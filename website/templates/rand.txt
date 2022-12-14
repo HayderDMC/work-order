@@ -1,0 +1,135 @@
+<table border = 0>
+  {% for row in results %}
+    <tr>
+      <td>
+        {{ row["note.data"]}}
+
+      </td>
+    </tr>
+  {% endfor %}
+  
+</table>
+
+<ul class="list-group list-group-flush" id="user">
+ 
+
+
+<ul class="list-group list-group-flush" id="notes">
+  {% for note in user.notes %}
+  <li class="list-group-item">
+    {{ note.data }}  
+  </br>
+      {{ note.date }} 
+
+    <button type="button" class="close" onClick="deleteNote({{ note.id }})">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </li>
+
+  
+
+  {% endfor %}
+</ul>
+
+
+
+<table>
+  <tr>
+    <th>id</th>
+    <th>data</th>
+    <th>date</th>
+    
+  </tr>
+  {% for row2 in results2 %}
+  
+    <tr>
+      <td>{{ row2["department"] }}</td>
+      <td>{{ row2["unit"] }}</td>
+      <td>{{ row2["admin"] }}</td>
+  
+    </tr>
+  
+  {% endfor %}
+  
+</table>
+
+
+}
+
+  function update(noteId2) {
+    fetch("/update2", {
+      method: "POST",
+      body: JSON.stringify({ noteId2: noteId2 }),
+    }).then((_res) => {
+      window.location.href = "/update2";
+    });
+  }
+  <button type="button" class="background-color" onClick="update({{ row["id"] }})">
+    <a class="nav-item nav-link" id="update" href="/update">تحديث</a>
+    </button>
+    </td>
+
+
+
+    
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+td, th {
+  border: 1px solid #dddddd;
+  text-align: center ;
+  padding: 8px;
+}
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+<table>
+  <tr>
+    <th>id</th>
+    <th>بيانات العمل</th>
+    <th>تاريخ الطلب</th>
+    <th>الشعبة الطالبة</th>
+    <th>الوحدة الطالبة</th>
+    <th>الشعبة المنفذة</th>
+    <th> الوحدة المنفذة</th>
+    <th>فحص الامر</th>
+  </tr>
+  {% for row in results %}
+    {% if user.id == row["user_id"] or user.department == row["department2"]:%}
+  <tr>
+    <td>{{ row["id"] }}</td>
+    <td>{{ row["data"] }}</td>
+    <td>{{ row["date"] }}</td>
+    {% for row2 in results2 %}
+    {% if row["user_id"] == row2["id"]:%}
+    <td>{{ row2["department"] }}</td>
+    <td>{{ row2["unit"] }}</td>
+    {% endif %}
+    {% endfor %}
+    <td>{{ row["department2"] }}</td>
+    <td>{{ row["unit2"] }}</td>
+    <td>
+      <button type="button" class="close" onClick="deleteNote({{ row["id"] }})">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </td>
+    {% endif %}
+  {% endfor %}
+</table>
+
+
+window.location.href = ("/update");
+
+    {% if results.state2 == "تم الانجاز" %}
+       {% if results.state3  %}
+
+        {% endif %}
+      {% endif %}

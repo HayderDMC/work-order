@@ -1,0 +1,88 @@
+{% extends "base.html" %} 
+{% block title %}check{% endblock %}
+
+
+{% block content %}
+
+<h5 align="right"> مرحبا ({{ user.first_name }}) </h5>
+
+<h4 align="center">  اوامر العمل الواردة</h4>
+<br>
+
+<html><head><style>
+table {border-spacing: 0px;table-layout: fixed;margin-left: auto;margin-right: auto;}
+td {border: 1px solid #dddddd;text-align: center ;padding: 8px;max-width: 400px;word-wrap: break-word;}
+th {border: 1px solid #dddddd;text-align: center ;padding: 8px;max-width: 400px;word-wrap: break-word;}
+tr:nth-child(even) {background-color: #dddddd;}
+</style></head><body>
+<table>
+
+
+{% if user.admin == "مدير قسم" %}
+<ul class="list-group list-group-flush" id="notes">
+  <li class="list-group-item"></li>
+  <tr>
+    <th>Id</th><th>بيانات العمل</th><th>تاريخ الطلب</th><th>الشعبة الطالبة</th>
+    <th>الوحدة الطالبة</th><th>الشعبة المنفذة</th><th> الوحدة المنفذة</th>
+    <th> الانجاز </th><th>تايد الانجاز</th><th>فحص الامر</th>
+  </tr>
+  {% for row in results %}
+  
+    <tr> {% if row["state1"] != "موافق" and row["state1"] != "مرفوض"  :%}
+      <td>{{ row["id"] }}</td><td>{{ row["data"] }}</td><td>{{ row["date"] }}</td>
+      {% for row2 in results2 %}
+      {% if row["user_id"] == row2["id"]:%}
+      <td>{{ row2["department"] }}</td>
+      <td>{{ row2["unit"] }}</td>
+      {% endif %}
+      {% endfor %}
+      <td>{{ row["department2"] }}</td>
+      <td>{{ row["unit2"] }}</td><td>{{ row["state2"] }}</td><td>{{ row["state3"] }}</td>
+    <td>
+    <button type="button" class="background-color" onClick="sendid({{ row["id"] }})">
+      <a class="nav-item nav-link" id="update" >update</a>
+    </button>
+    </td> {% endif %}
+  </tr>
+ {% endfor %}
+</li></ul></table>
+{% endif %}
+
+
+
+{% if user.admin == "مدير وحدة" or user.admin == "مسؤول وجبة"%}
+
+<ul class="list-group list-group-flush" id="notes">
+  <li class="list-group-item"></li>
+  <tr>
+    <th>Id</th><th>بيانات العمل</th><th>تاريخ الطلب</th><th>الشعبة الطالبة</th>
+    <th>الوحدة الطالبة</th><th>التاريخ المطلوب لانجاز العمل</th>
+    <th> الانجاز </th><th>تايدالانجاز</th><th>فحص الامر</th>
+  </tr>
+  {% for row in results %}
+  {% if row["unit2"] == user.unit and row["state1"] == "موافق" :%}
+  
+    <tr>
+      <td>{{ row["id"] }}</td><td>{{ row["data"] }}</td><td>{{ row["date"] }}</td>
+      {% for row2 in results2 %}
+      {% if row["user_id"] == row2["id"]:%}
+      <td>{{ row2["department"] }}</td>
+      <td>{{ row2["unit"] }}</td>
+      {% endif %}
+      {% endfor %}
+      <td>{{ row["date2"] }}</td><td>{{ row["state2"] }}</td><td>{{ row["state3"] }}</td>
+    <td>
+    <button type="button" class="background-color" onClick="sendid({{ row["id"] }})">
+      <a class="nav-item nav-link" id="update" >update</a>
+    </button>
+    </td></tr>
+    {% endif %}
+ {% endfor %}
+</li></ul></table>
+{% endif %}
+
+
+
+
+
+{% endblock %}

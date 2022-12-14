@@ -1,0 +1,72 @@
+{% extends "base.html" %} 
+{% block title %}Home{% endblock %}
+
+
+{% block content %}
+
+<h5 align="right">مرحبا ({{ user.first_name }}) </h5>
+{% if user.admin == "مدير قسم" %}
+<h5 align="right">مدير مصفى النجف </h5>
+{% else %}
+<h5 align="right"> شعبة -ال{{ user.department  }}/ وحدة -ال{{  user.unit  }} </h5>
+{% endif %}
+
+
+
+<br />
+<br />
+{% if user.admin != "مدير قسم" %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbar"
+  >
+    <span  class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbar">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" id="create" href="/create">انشاء امر عمل  </a>
+    </div>
+  </div>
+</nav>
+
+<br />
+{% endif %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <button 
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbar"
+       >
+        <span  class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar">
+        <div class="navbar-nav" >
+          <a class="nav-item nav-link" id="check" href="/check" >معاينة اوامر العمل الواردة</a>
+        </div>
+      </div>
+    </nav>
+
+    <br />
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <button 
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbar"
+       >
+        <span  class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar">
+        <div class="navbar-nav" >
+          <a class="nav-item nav-link" id="check" href="/check2" >معاينة اوامر العمل الصادرة</a>
+        </div>
+      </div>
+    </nav>   
+
+{% endblock %}

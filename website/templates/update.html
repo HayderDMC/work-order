@@ -1,0 +1,169 @@
+{% extends "base.html" %} 
+{% block title %}update{% endblock %}
+
+
+{% block content %}
+
+<h5 align="center">بسمه تعالى</h5>
+<h5 align="right">وزارة النفط <br /> شركة مصافي الوسط<br />مصفى النجف</h5>
+<h5 align="left">العدد({{results.id}})</h5>
+<h5 align="left">التاريخ({{results.date}})</h5>
+
+
+
+<h4 align="center">امر عمل</h4>
+<h5 align="right">السيد مدير مصفى النجف المحترم</h5>
+<h5 align="right">يرجى الموافقة على اجراء الاعمال الاتية:</h5>
+
+
+<html><head><style>
+  table {border-spacing: 0px; table-layout: fixed; margin-left: auto;margin-right: auto;}
+  td { border: 1px solid #dddddd; text-align: right ; padding: 8px; width: 1400px; max-width: 1400px; word-wrap: break-word;font-size: large;white-space: pre-wrap;}
+  th {border: 1px solid #dddddd; text-align: right ; padding: 8px; width: 1400px; max-width: 1400px; word-wrap: break-word;white-space: pre-wrap;}
+  tr:nth-child(even) {background-color: #dddddd;}
+  </style></head><body>
+<table>
+  <tr><th>بيانات العمل</th></tr>
+  <tr><td>{{ results.data }}</td></tr>
+</table>
+<h5 align="right"> الى/ال{{results.department2}}/ال{{results.unit2}}</h5>
+<h5 align="right">يرجى اجراء الاعمال اعلاه على ان تنجز في({{results.date2}}) حتما</h5>
+<h5 align="left">الجهة الطالبة</h5>
+<h5 align="left">
+{% for row2 in results2 %}
+      {% if row2["id"] == results.user_id:%}
+         {{ row2["department"] }}-
+         {{ row2["unit"] }} <br />
+         {{ row2["first_name"] }}
+      {% endif %}
+      {% endfor %}
+</h5>
+
+
+<h5 align="center"> مدير المصفى</h5>
+
+
+<h5 align="center">({{results.state1}})</h5>
+<h5 align="center">({{results.sign1}})</h5>
+<h5 align="center">({{results.date3}})</h5>
+
+
+  
+  
+
+  {% if results.data2 %}
+  
+  <table> 
+  <tr><th> ملاحظات المدير </th></tr>
+  <tr><td>{{ results.data2 }}</td></tr></table>
+ 
+  <br />
+  {% endif %}
+  
+  <table><tr><th> اسماء العاملين و ملاحظات الجهة المنفذة</th></tr>
+    <tr><td>{{ results.data3 }}</td></tr></table>
+  <br />
+  
+
+  <h5 align="right">  توقيع الجهة المفذة </h5>
+  <h5 align="right"> {{ results.state2 }} </h5>
+  <h5 align="right"> {{ results.sign2 }} </h5>
+  <h5 align="right"> {{ results.date4 }} </h5>
+
+  
+  <h5 align="left">تايد الجهة الطالبة</h5>
+  <h5 align="left"> {{ results.state3 }} </h5>
+  <h5 align="left"> {{ results.sign3 }} </h5>
+  <h5 align="left">  انجز العمل اعلاة بتاريخ </h5>
+  <h5 align="left"> {{ results.date5 }} </h5>
+
+<form method="POST">
+
+  {% if user.admin == "مدير قسم" %}
+
+  <h5 align="center">ملاحظات المدير</h5>
+    <textarea name="note" id="note" class="form-control"></textarea>
+
+    <div class="form-group" align="center">
+      <label for="state1" > يرجى الموافقة او الرفض :</label>
+      <br />
+      <select name="state1" id="state1">
+        <option value="">Please select value</option>
+        <option value="موافق" >موافق</option>
+        <option value="مرفوض" >مرفوض</option>
+      </select>
+    </div>
+    <div align="center">
+      <button type="submit" class="btn btn-primary"> تحديث </button>
+    </div>
+   
+    {% endif  %}
+
+    {% if user.unit == results.unit2 and results.state1 == "موافق" and results.state2 != "تم الانجاز" %}
+    
+    
+    <h5 align="center">ملاحظات الجهة المنفذة و اسماء العاملين</h5>
+    <textarea name="note2" id="note2" class="form-control"></textarea>
+
+
+    <div class="form-group" align="right">
+      <label for="state2" >توقيع الجهة المفذة:</label>
+      <br />
+      <select name="state2" id="state2">
+        <option value="">Please select value</option>
+        <option value="تم الانجاز" >تم الانجاز</option>
+        <option value="لم يتم الانجاز" >لم يتم الانجاز</option>
+      </select>
+    </div>
+
+    <div align="center">
+      <button type="submit" class="btn btn-primary"> تحديث </button>
+    </div>
+   
+
+    {% endif  %}
+
+
+    {% for row2 in results2 %}
+    {% if row2["id"] == results.user_id:%}
+       {% if row2["unit"] == user.unit %}
+       {% if results.state2 == "تم الانجاز" %}
+       {% if results.state3  %}
+
+       {% else %}
+
+      <div class="form-group" align="left">
+      <label for="state3" > تايد الجهة الطالبة:</label>
+      <br />
+      <select name="state3" id="state3">
+        <option value="">Please select value</option>
+        <option value="تم الانجاز" >تم الانجاز</option>
+        <option value="لم يتم الانجاز" >لم يتم الانجاز</option>
+      </select>
+      </div>
+      <div class="form-group" align="left">
+      <label for="date5"> تاريخ الانجاز :</label>
+      <input type="date" id="date" name="date5"
+         value="2018-07-22"
+         min="2022-01-01" max="2030-12-31">
+      </div>
+
+
+      <div align="center">
+        <button type="submit" class="btn btn-primary"> تحديث </button>
+      </div>
+     
+      {% endif %}
+      {% endif %}
+      {% endif %}
+      {% endif %}
+      {% endfor %}
+  
+    
+    <div align="right">
+    <button type="button" class="background-color" onClick="printp()">
+      <a class="nav-item nav-link" id="update" >print</a>
+    </button></div>
+    <br />
+    
+{% endblock %}

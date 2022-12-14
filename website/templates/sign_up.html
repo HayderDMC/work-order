@@ -1,0 +1,178 @@
+{% extends "base.html" %} {% block title %}Sign Up{% endblock %} {% block
+  content %}
+  <br />
+  <form method="POST">
+    <h3 align="center">أضافة حساب</h3>
+    
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        placeholder="Enter email"
+      />
+    </div>
+    <div class="form-group">
+      <label for="firstName">الاسم</label>
+      <input
+        type="text"
+        class="form-control"
+        id="firstName"
+        name="firstName"
+        placeholder="ادخل الاسم الكامل"
+      />
+    </div>
+  
+    <script>
+
+
+      var subjectObject = {
+        "مدير قسم": {
+          "": ["", ""],
+          "": ["", "",],
+        },
+        "مدير شعبة": {
+          "انتاج": ["", ""],
+          "صيانة": ["", "",],
+        },
+        "مدير وحدة": {
+          "انتاج": ["ضخ و خزن", "تشغيل"],
+          "صيانة": ["الات", "ميكانيك", ],
+        },
+        "مسؤول وجبة": {
+          "انتاج": ["ضخ و خزن", "تشغيل"],
+          "صيانة": ["الات", "ميكانيك", ],
+             
+        }}
+
+      
+        var subjectObject2 = {
+        "مدير قسم": {
+          "": ["", "", "", ""],
+          "": ["", "", "", ""],
+         
+        },
+        "مدير شعبة": {
+          "": ["", "", "", ""],
+          "": ["", "", "", ""],
+          
+        },
+        "مدير وحدة": {
+          "": ["", "", "", ""],
+          "": ["", "", "", ""],
+          
+        },
+        "مسؤول وجبة": {
+          "نعم": ["A", "B", "C", "D"],
+          "لا": ["A", "B", "C", "D" ],
+             
+        }
+
+        }
+
+
+
+
+
+
+       window.onload = function() {
+        var subjectSel = document.getElementById("admin");
+        var topicSel = document.getElementById("department");
+        var chapterSel = document.getElementById("unit");
+        for (var x in subjectObject) {
+          subjectSel.options[subjectSel.options.length] = new Option(x, x);
+        }
+        subjectSel.onchange = function() {
+          //empty Chapters- and Topics- dropdowns
+          chapterSel.length = 1;
+          topicSel.length = 1;
+          //display correct values
+          for (var y in subjectObject[this.value]) {
+            topicSel.options[topicSel.options.length] = new Option(y, y);
+          }
+        }
+        topicSel.onchange = function() {
+          //empty Chapters dropdown
+          chapterSel.length = 1;
+          //display correct values
+          var z = subjectObject[subjectSel.value][this.value];
+          for (var i = 0; i < z.length; i++) {
+            chapterSel.options[chapterSel.options.length] = new Option(z[i], z[i]);
+          }
+        }
+      }
+
+
+
+      
+
+     
+      </script>
+    <div class="form-group">
+      <label for="admin"> المنصب :</label>
+      <select name="admin" id="admin">
+          <option value="" selected="selected">Select subject</option>
+      </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="department"> الشعبة:</label>
+        <select name="department" id="department">
+          <option value="" selected="selected">Please select subject first</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+      <label for="unit">  الوحدة:</label>
+      <select name="unit" id="unit">
+          <option value="" selected="selected">Please select topic first</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+      <label for="engineer"> مهندس مناوب:</label>
+      <select name="engineer" id="engineer">
+        <option value="">Please select value</option>
+        <option value="نعم" >نعم</option>
+        <option value="لا" >لا</option>
+      </select>
+  </div>
+
+  <div class="form-group">
+    <label for="shift"> الوجبة:</label>
+    <select name="shift" id="shift">
+      <option value="">Please select value</option>
+      <option value="A" >A</option>
+      <option value="B" >B</option>
+      <option value="C" >C</option> 
+      <option value="D" >D</option>
+      </select>
+  </div>
+        
+  
+    <div class="form-group">
+      <label for="password1">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password1"
+        name="password1"
+        placeholder="Enter password"
+      />
+    </div>
+    <div class="form-group">
+      <label for="password2">Password (Confirm)</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password2"
+        name="password2"
+        placeholder="Confirm password"
+      />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  {% endblock %}
